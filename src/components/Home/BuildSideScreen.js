@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import pix from "./ig.gif";
+import DisplayCard from "./DisplayCard"
 
 const BuildSideScreen = () => {
+	const [display, setDisplay] = React.useState(false)
 	return (
 		<Container>
 			<Wrapper>
@@ -23,8 +25,18 @@ const BuildSideScreen = () => {
 					<Holder>
 						<Image1 src={pix} />
 						<Hold>
-							<Name>name</Name>
+							<DDName
+							onMouseEnter={()=>{
+                              setDisplay(true)
+							}}
+							onMouseLeave={()=>{
+								setDisplay(false)
+
+							}}
+							>name</DDName>
+							{display? <Div><DisplayCard setDisplay={setDisplay}/></Div>:null}
 							<Profile>profile</Profile>
+
 						</Hold>
 					</Holder>
 
@@ -36,6 +48,10 @@ const BuildSideScreen = () => {
 };
 
 export default BuildSideScreen;
+const Div = styled.div`
+position:absolute;
+top:10
+`
 
 const Image1 = styled.img`
 	width: 60px;
@@ -73,7 +89,9 @@ const Profile = styled.div``;
 const Name = styled.div`
 	font-weight: 700;
 `;
-const Hold = styled.div``;
+const Hold = styled.div`
+position:relative
+`;
 
 const Image = styled.img`
 	width: 70px;
@@ -96,3 +114,27 @@ const Container = styled.div`
 	width: 100%;
 	position: fixed;
 `;
+const DDName = styled.div`
+font-size:12px;
+font-weight:700;
+position:relative;
+z-index:10;
+::after{
+	content:"";
+	height:2px;
+	background:purple;
+	position:absolute;
+	left:0;
+	bottom:0;
+	width:100%;
+opacity:0;
+transition:all 300ms
+}
+:hover{
+	cursor:pointer;
+	::after{
+		opacity:1;
+	
+	}
+}
+`
