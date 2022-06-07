@@ -42,6 +42,12 @@ const DisplayCard =({setDisplay})=>{
     <Title>following</Title>
 </CountHold>
                 </Middle>
+                <Bottom>
+                    <Images src={pix}/>
+                    <Images src={pix}/>
+                    <Images src={pix}/>
+                </Bottom>
+                <Button>follow</Button>
             </Wrapper>
         </Container>
     )
@@ -57,7 +63,9 @@ box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
         border-radius:4px;
         z-index:12
 `
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+
+`
 const Top = styled.div`
 display:flex;
 padding:10px 0;
@@ -102,4 +110,29 @@ font-weight:700
 `
 const Title = styled.div`
 text-transform:capitalize
+`
+const Bottom = styled.div`
+width:100%
+`
+const Images = styled.img`
+width:116px;
+height:116px;
+:hover{
+    opacity:0.7;
+    cursor:pointer
+}
+`
+
+const Button = styled.div`
+margin:10px;
+background:#69bff8;
+height:40px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:15px;
+font-weight:700;
+color:#fff;
+border-radius:4px;
+
 `
