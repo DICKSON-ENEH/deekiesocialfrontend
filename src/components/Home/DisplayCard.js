@@ -28,6 +28,20 @@ const DisplayCard =({setDisplay})=>{
                         </Follwed>
                     </Holder>
                 </Top>
+                <Middle>
+<CountHold>
+    <Count>{0}</Count>
+    <Title>post</Title>
+</CountHold>
+<CountHold>
+    <Count>{0}</Count>
+    <Title>followers</Title>
+</CountHold>
+<CountHold>
+    <Count>{0}</Count>
+    <Title>following</Title>
+</CountHold>
+                </Middle>
             </Wrapper>
         </Container>
     )
@@ -67,4 +81,25 @@ color:silver
 `
 const Follwed = styled.div`
 color:grey
+`
+const Middle = styled.div`
+height:50px;
+border-top:1px solid silver;
+border-bottom:1px solid silver;
+padding:10px 0px;
+display:flex;
+align-items:center;
+justify-content:space-around
+`
+const CountHold = styled.div`
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center
+`
+const Count = styled.div`
+font-weight:700
+`
+const Title = styled.div`
+text-transform:capitalize
 `
