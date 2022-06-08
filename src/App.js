@@ -5,6 +5,7 @@ import Detailscreen from "./components/Profile/Detailscreen"
 import Register from "./components/Auth/Register"
 import Signin from "./components/Auth/Signin"
 import NewPassword from "./components/Auth/NewPassword";
+import ConfirmEmailVerification from "./components/Auth/ConfirmEmailVerification";
 // import Register from "./components/Auth/Register";
 import ResetPassword from "./components/Auth/ResetPassword";
 const App=()=> {
@@ -18,6 +19,10 @@ const App=()=> {
      <Route path = "/detail" element ={<Detailscreen/>}/>
      <Route path="/requestReset" element={<ResetPassword />} />
      <Route path="/newPassword" element={<NewPassword />} />
+     <Route
+					path="/api/user/token/:id/:token"
+					element={<ConfirmEmailVerification />}
+				/>
    </Routes>
    </BrowserRouter>
   );
