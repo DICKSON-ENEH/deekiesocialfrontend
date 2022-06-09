@@ -1,10 +1,13 @@
-import React from "react";
+import React ,{useState}from "react";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import { AiFillHome, AiOutlineHeart } from "react-icons/ai";
-import { BiAddToQueue } from "react-icons/bi";
+import { BiAddToQueue, BiUserCircle } from "react-icons/bi";
+import {NavLink} from "react-router-dom"
+
 import pix from "./ig.gif";
 const Header = () => {
+	const [auth, setAuth] = useState(false);
 	return (
 		<Container>
 			<Wrapper>
@@ -16,10 +19,21 @@ const Header = () => {
 					</SearchBar>
 				</Hold>
 				<Hold>
-					<HomeIcon />
-					<PostIcon />
-					<LoveIcon />
+				
 					<Image src={pix} />
+					{auth ? (
+						<div>
+							<HomeIcon />
+							<PostIcon />
+							<LoveIcon />
+							<Image src={pix} />
+						</div>
+					) : (
+						<Nav to="/register">
+							<Icons />
+							<span>Register</span>
+						</Nav>
+					)}
 				</Hold>
 			</Wrapper>
 		</Container>
@@ -28,13 +42,24 @@ const Header = () => {
 
 export default Header;
 // const SearchBarIcon = styled.div``;
-
+const Icons = styled(BiUserCircle)`
+	font-size: 30px;
+`;
 const Image = styled.img`
 	width: 50px;
 	height: 50px;
 	border-radius: 50%;
 	object-fit: cover;
 	cursor: pointer;
+`;
+const Nav = styled(NavLink)`
+	text-transform: uppercase;
+	font-size: 13px;
+	font-weight: 900;
+	text-decoration: none;
+	color: black;
+	display: flex;
+	align-items: center;
 `;
 
 const HomeIcon = styled(AiFillHome)`

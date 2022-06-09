@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import pix from "./ig.gif";
 import styled from "styled-components";
 import { FaFacebookSquare, FaRegUserCircle } from "react-icons/fa";
@@ -7,11 +7,66 @@ import { GiPadlock } from "react-icons/gi";
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdPassword } from "react-icons/md";
 import { Link } from "react-router-dom";
+import * as yup from "yup"
+import {useForm} from "react-hook-form"
+import {yupResolver} from "@hookform/resolvers/yup"
+import axios from "axios"
+import Swal from "sweetalert2";
 
 const Register = () => {
+	const [image, setImage] = useState(pix)
+	const [avatar, setAvatar]= useState("")
+	const formSchema = yup.object().shape({
+		email:yup.string().required("field cannot be empty"),
+		fullName:yup.string().required("field cannot be empty"),
+		userName:yup.string().required("this field cannot be empty"),
+		password:yup.string().required("this field cannot be empty"),
+		confirm:yup.string().oneOf([
+			yup.ref("password"),null
+		], "password does not match")
+	})
+const handleImage =(e)=>{
+const file= e.target.files[0]
+const save = URL.createObjectURL(file)
+setImage(save)
+setAvatar(file)
+}
+const {register, reset, handleSubmit, formState:{errors}}= useForm({
+	resolver:yupResolver(formSchema)
+})
+
+const submitForm = handleSubmit(async(value)=>{
+const 	{fullName, userName, email, password}= value
+console.log(value)
+const formData = new FormData()
+formData.append("fullName", fullName)
+formData.append("userName", userName)
+formData.append("email", email)
+formData.append("password", password)
+formData.append("avatar", avatar)
+
+const config={ 
+	"content-type":"multipart/form-data"
+}
+
+const localUrl = "http://localhost:1234"
+const mainURL = "https://deekiesocialfrontend.herokuapp.com"
+
+const url = `${mainURL}/api/user/register`
+await axios.post(url, formData, config)
+Swal.fire({
+	icon: "success",
+	title: "Verify your Account",
+	text: "Check your mail for complete registeration",
+	footer: '<a href="">This is developed by CodeLab Students: set05</a>',
+});
+reset()
+
+})
+	
 	return (
 		<Container>
-			<Wrapper>
+			<Wrapper onSubmit = {submitForm}>
 				<Logo>Social Build</Logo>
 
 				<Text>Sign up to see photos and videos from your friends.</Text>
@@ -28,37 +83,57 @@ const Register = () => {
 				</LineHolder>
 
 				<ImageHold>
-					<Image src={pix} />
+					<Image src={image} />
 					<ImageLabel htmlFor="pix">Upload Image</ImageLabel>
-					<ImageInput id="pix" />
+					<ImageInput id="pix"
+					onChange={handleImage}
+					type="file"
+					/>
 				</ImageHold>
 
 				<InputHolder>
 					<Icon1 />
-					<Input placeholder="Email" />
+					<Input placeholder="Email" 
+					{...register("email")}
+					/>
 				</InputHolder>
+				<Error>{errors?.email?.message}</Error>
 
 				<InputHolder>
 					<Icon2 />
-					<Input placeholder="Full Name" />
+					<Input placeholder="Full Name"
+					{...register("fullName")}
+					
+					/>
 				</InputHolder>
+				<Error>{errors?.fullName?.message}</Error>
 
 				<InputHolder>
 					<Icon3 />
-					<Input placeholder="Username" />
+					<Input placeholder="Username"
+					{...register("userName")}
+					
+					/>
 				</InputHolder>
-
+<Error>{errors?.userName?.message}</Error>
 				<InputHolder>
 					<Icon4 />
-					<Input placeholder="Password" />
+					<Input placeholder="Password"
+					{...register("password")}
+					
+					/>
 				</InputHolder>
-
+<Error>{errors?.password?.message}</Error>
 				<InputHolder>
 					<Icon4 />
-					<Input placeholder="Confirm Password" />
+					<Input placeholder="Confirm Password" 
+					{...register("confirm")}
+					
+					/>
 				</InputHolder>
+				<Error>{errors?.confirm?.message}</Error>
 
-				<Button>
+				<Button type = "submit">
 					<Icon6 />
 					<span>Sign up</span>
 				</Button>
@@ -74,6 +149,10 @@ const Register = () => {
 
 export default Register;
 
+const Error = styled.div`
+	font-size: small;
+	color: red;
+`;
 const Linked = styled.div`
 	display: flex;
 `;
@@ -214,7 +293,7 @@ const Logo = styled.div`
 	margin-bottom: 10px;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.form`
 	width: 350px;
 	height: 100%;
 	min-height: 100px;

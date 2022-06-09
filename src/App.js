@@ -8,6 +8,7 @@ import NewPassword from "./components/Auth/NewPassword";
 import ConfirmEmailVerification from "./components/Auth/ConfirmEmailVerification";
 // import Register from "./components/Auth/Register";
 import ResetPassword from "./components/Auth/ResetPassword";
+// import NewPassword from "./components/Auth/NewPassword";
 const App=()=> {
   return (
    <BrowserRouter>
@@ -23,6 +24,7 @@ const App=()=> {
 					path="/api/user/token/:id/:token"
 					element={<ConfirmEmailVerification />}
 				/>
+        <Route path="/api/user/reset/:id/:token" element={<NewPassword />} />
    </Routes>
    </BrowserRouter>
   );
